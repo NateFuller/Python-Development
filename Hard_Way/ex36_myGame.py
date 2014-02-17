@@ -7,6 +7,9 @@ inventory = []
 
 def add_to_inventory(thing_to_add):
 	inventory.append(thing_to_add)
+
+def print_inventory():
+	print inventory
 	
 def start():
 	print "You're in a white room. There are two doors."
@@ -44,11 +47,9 @@ Nothing interesting though. Next to the window is a desk."""
 	if(inventory.count("Pen") == 0):
 		print "On the desk is a pen."
 	doSomething = do_something()
-	print doSomething
-	print "You have the rope.", has_rope	
-	if has_rope and doSomething == "window":
+	if has_rope and "window" in doSomething:
 		window()
-	elif not has_rope and doSomething == "window":
+	elif not has_rope and "window" in doSomething:
 		print "You do not have a rope to scale down the mountain."
 		den(has_rope)
 	elif "desk" in doSomething:
@@ -66,7 +67,7 @@ Nothing interesting though. Next to the window is a desk."""
 			add_to_inventory("Pen")
 		else:
 			print "You can't do that."
-	elif "book case" in doSomething:
+	elif "book case" in doSomething: #TODO: make the books interesting... otherwise don't mention them.
 		print "There's nothing really interesting about any of the books."
 	elif "inventory" in doSomething:
 		print_inventory()
@@ -74,15 +75,41 @@ Nothing interesting though. Next to the window is a desk."""
 		print "You can't do that."
 	den(has_rope)
 
-def trap_door():
-	print """A trap door opens and you begin sliding down a chute. You pick
-up speed until you see an opening in the distance. You fly out 
-of the opening into a shallow pond. There is a shore ahead."""
-
 def window():
 	print """You open the window."""
 
-def print_inventory():
-	print inventory
+def trap_door():
+	print """A trap door opens and you begin sliding down a chute. You pick
+up speed until you see an opening in the distance. You fly out 
+of the opening into a shallow pond.""" 
+	shallow_pond(False)
+
+def shallow_pond(resurface):
+	if (resurface):
+		print """You resurface and catch your breath. Ahead is the shore."""
+	else:
+		print """The water is refreshing in this pond. It is shallow enough that
+you can see the bottom of the pond just feet below you. The shore lies ahead
+of you."""
+	doSomething = do_something()
+	if "shore" in doSomething or "ahead" in doSomething:
+		shore()
+	elif "dive" in doSomething():
+		dive()
+	else:
+		print "You can't do that."
+	shallow_pond(False)
+
+def shore():
+	print """You swim to the shore. Judging by the position of the sun, you are
+facing north. In front of you is a treeline of thick forest. Behind you is the
+pond which presses up against the fortress you were just trying to escape from.
+The fortress towers over you. Thankfully, there is no way back in from here, and
+it would be best to continue away from the fortress."""
+
+def dive():
+	print """You dive underwater and see a small lockbox. Inside the lockbox is a key!"""
+	add_to_inventory("Key")
+	shallow_pond(True):
 	
 start()
